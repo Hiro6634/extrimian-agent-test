@@ -153,6 +153,7 @@ const index = async () => {
         }
     });
 
+    console.log("waciProtocol Ok!");
     const issuerAgent = new Agent({
         didDocumentRegistry: new AgentModenaUniversalRegistry("http://modena.gcba-extrimian.com:8080"),
         didDocumentResolver: new AgentModenaUniversalResolver("http://modena.gcba-extrimian.com:8080"),
@@ -165,7 +166,11 @@ const index = async () => {
         vcProtocols: [waciProtocol],
         supportedTransports: [new DWNTransport()]
     });
+    
+    console.log("issuerAgent Ok!")
     await issuerAgent.initialize();
+
+    console.log("issuerAgent initialize Ok!");
 
     issuerAgent.vc.credentialIssued.on((args) => {
         console.log(args);
@@ -179,6 +184,7 @@ const index = async () => {
         },
     });
 
+    console.log("holderWaciProtocol Ok!");
 
     const holderAgent = new Agent({
         didDocumentRegistry: new AgentModenaUniversalRegistry("http://modena.gcba-extrimian.com:8080"),
@@ -196,7 +202,11 @@ const index = async () => {
         supportedTransports: [new DWNTransport()]
     });
 
+    console.log("holderAgent Ok!");
+
     await holderAgent.initialize();
+
+    console.log("holderAgent initialize Ok!");
 
     const processMessage = async () => new Promise(async (resolve, reject) => {
 
@@ -225,6 +235,8 @@ const index = async () => {
             message: await issuerAgent.vc.createInvitationMessage({ flow: CredentialFlow.Issuance }),
         });
     });
+
+    console.log("processMessage Ok!");
 
     await processMessage();
 }
