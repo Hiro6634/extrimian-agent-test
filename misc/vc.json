@@ -1,0 +1,45 @@
+{
+    "@context": [
+      "https://w3id.org/vaccination/v1",
+      "https://w3id.org/security/v2",
+      "https://w3id.org/security/bbs/v1",
+      "https://www.w3.org/2018/credentials/v1"
+    ],
+    "type": [ "VerifiableCredential", "VaccinationCertificate" ],
+    "id": "urn:uvci:af5vshde843jf831j128fj",
+    "name": "COVID-19 Vaccination Certificate",
+    "description": "COVID-19 Vaccination Certificate",
+    "issuer": {
+      "id": "did:quarkid:matic:EiAafYgtdgkBmeZRp86xtydU87PN8gdQ8H4DBu1u8bKfXA",
+      "name": "Fulano de Tal"
+    },
+    "issuanceDate": "2023-03-16T15:15:42.058Z",
+    "credentialSubject": {
+      "type": "VaccinationEvent",
+      "batchNumber": "1183738569",
+      "administeringCentre": "MoH",
+      "healthProfessional": "MoH",
+      "countryOfVaccination": "NZ",
+      "recipient": {
+        "type": "VaccineRecipient",
+        "givenName": "JOHN",
+        "familyName": "SMITH",
+        "gender": "Male",
+        "birthDate": "1958-07-17"
+      },
+      "vaccine": {
+        "type": "Vaccine",
+        "disease": "COVID-19",
+        "atcCode": "J07BX03",
+        "medicinalProductName": "COVID-19 Vaccine Moderna",
+        "marketingAuthorizationHolder": "Moderna Biotech"
+      }
+    },
+    "proof": {
+      "type": "BbsBlsSignature2020",
+      "created": "2023-03-16T15:15:45Z",
+      "proofPurpose": "assertionMethod",
+      "proofValue": "pplpMoiJp3cqe4XI+KzQuTaSyHgTm3jN7gQquR7cj2HkOz84Aa5KAc0pcfPM729LYUHlKfzccE4m7waZyoLEkBLFiK2g54Q2i+CdtYBgDdkUDsoULSBMcH1MwGHwdjfXpldFNFrHFx/IAvLVniyeMQ==",
+      "verificationMethod": "did:quarkid:matic:EiCziBx6txhbBLirBb4XkALZrJMRPqq6jhOyH-ae56DbAw#vc-bbsbls"
+    }
+  }

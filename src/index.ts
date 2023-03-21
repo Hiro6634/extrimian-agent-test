@@ -9,10 +9,11 @@ import { Agent,
     WACICredentialOfferSucceded, 
     WACIProtocol } from "@extrimian/agent";
 
+const hiroDID = 'did:quarkid:matic:EiAafYgtdgkBmeZRp86xtydU87PN8gdQ8H4DBu1u8bKfXA';
 const index = async () => {
     const waciProtocol = new WACIProtocol({
         issuer: {
-            issuerCredentialToSend: async (waciInvitationId: string, holderId: string) => {
+            issueCredentials: async (waciInvitationId: string, holderId: string) => {
                 return new WACICredentialOfferSucceded({
                     credentials: [{
                         credential: {
@@ -101,7 +102,7 @@ const index = async () => {
             }
         },
         verifier: {
-            presentationRequest: async (invitationId: string) => {
+            presentationDefinition: async (invitationId: string) => {
                 return {
                     frame: {
                         "@context": [
@@ -153,6 +154,7 @@ const index = async () => {
         }
     });
 
+
     console.log("waciProtocol Ok!");
     const issuerAgent = new Agent({
         didDocumentRegistry: new AgentModenaUniversalRegistry("http://modena.gcba-extrimian.com:8080"),
@@ -172,9 +174,128 @@ const index = async () => {
 
     console.log("issuerAgent initialize Ok!");
 
-    issuerAgent.vc.credentialIssued.on((args) => {
-        console.log(args);
-    });
+    // const myDid = await issuerAgent.identity.createNewDID({
+    
+    // });
+
+    // const myVC = await issuerAgent.vc.createInvitationMessage({
+    //     flow: CredentialFlow.Issuance
+    // });
+    // console.log("*** My First Credential! ***");
+    // console.log(myVC);
+
+    // const myVC = new VerifiableCredential({
+    //     "@context":["https://w3id.org/vaccination/v1",
+    //     "https://w3id.org/security/v2",
+    //     "https://w3id.org/security/bbs/v1"],
+    //     "id":"http://example.edu/credentials/332",
+    //     "type": ["VerifiableCredential"],
+    //     "issuer": "https://example.edu/issuers/4",
+    //     "credentialSubject":{
+    //         "name:": "Mauricio Fernandez",
+    //         "address": {
+    //             "streetAddress": "Balcarce 50",
+    //             "postalCode": "0000",
+    //             "addressLocality": "CABA",
+    //             "addressCountry": "AR",
+    //         },
+    //         "birthDate": "2019-12-10",
+    //     }
+    // });
+
+    const myVC = {
+        "@context": [
+          'https://w3id.org/vaccination/v1',
+          'https://w3id.org/security/v2',
+          'https://w3id.org/security/bbs/v1',
+          'https://www.w3.org/2018/credentials/v1'
+        ],
+        type: [
+            "VerifiableCredential",
+            "VaccinationCertificate"
+        ],
+        id: "urn:uvci:af5vshde843jf831j128fj",
+        name: "COVID-19 Vaccination Certificate",
+        description: "COVID-19 Vaccination Certificate",
+        issuer: {
+          id: "did:quarkid:matic:EiDs1liYifwFEg9l7rxrpR48MH-7Z-M2E32R1vEYThQWsQ"
+        },
+        issuanceDate: new Date().toISOString(),
+        credentialSubject: {
+          type: "VaccinationEvent",
+          batchNumber: "1183738569",
+          administeringCentre: "MoH",
+          healthProfessional: "MoH",
+          countryOfVaccination: "NZ",
+          recipient: {
+            type: "VaccineRecipient",
+            givenName: "JOHN",
+            familyName: "SMITH",
+            gender: "Male",
+            birthDate: "1958-07-17"
+          },
+          vaccine: {
+            type: "Vaccine",
+            disease: "COVID-19",
+            atcCode: "J07BX03",
+            medicinalProductName: "COVID-19 Vaccine Moderna",
+            marketingAuthorizationHolder: "Moderna Biotech",
+          }
+        }
+      };
+    console.log("*** My First Credential! ***");
+    console.log(myVC);
+
+    // const signVC = await issuerAgent.vc.signVC({credential: {
+    //     "@context": [
+    //       'https://w3id.org/vaccination/v1',
+    //       'https://w3id.org/security/v2',
+    //       'https://w3id.org/security/bbs/v1',
+    //       'https://www.w3.org/2018/credentials/v1'
+    //     ],
+    //     type: [
+    //         "VerifiableCredential",
+    //         "VaccinationCertificate"
+    //     ],
+    //     id: "urn:uvci:af5vshde843jf831j128fj",
+    //     name: "COVID-19 Vaccination Certificate",
+    //     description: "COVID-19 Vaccination Certificate",
+    //     issuer: { 
+    //         id: "did:quarkid:matic:EiAafYgtdgkBmeZRp86xtydU87PN8gdQ8H4DBu1u8bKfXA" ,
+    //         name: "Fulano de Tal",
+    //     },
+    //     issuanceDate: new Date(),
+    //     credentialSubject: {
+    //       type: "VaccinationEvent",
+    //       batchNumber: "1183738569",
+    //       administeringCentre: "MoH",
+    //       healthProfessional: "MoH",
+    //       countryOfVaccination: "NZ",
+    //       recipient: {
+    //         type: "VaccineRecipient",
+    //         givenName: "JOHN",
+    //         familyName: "SMITH",
+    //         gender: "Male",
+    //         birthDate: "1958-07-17"
+    //       },
+    //       vaccine: {
+    //         type: "Vaccine",
+    //         disease: "COVID-19",
+    //         atcCode: "J07BX03",
+    //         medicinalProductName: "COVID-19 Vaccine Moderna",
+    //         marketingAuthorizationHolder: "Moderna Biotech",
+    //       }
+    //     }
+    //   },
+    // });
+
+    // console.log("*** My Frst Signed VC ***");
+    // console.log(signVC);
+
+    // issuerAgent.vc.credentialIssued.on((args) => {
+    //     console.log('*** CREDENTIALS ***')
+    //     console.log(args);
+    // });
 
     const holderWaciProtocol = new WACIProtocol({
         holder: {
@@ -231,6 +352,8 @@ const index = async () => {
             resolve(null);
         });
 
+        const myMsg = await issuerAgent.vc.createInvitationMessage({ flow: CredentialFlow.Issuance });
+        console.log("MyMsg", myMsg);
         await holderAgent.vc.processMessage({
             message: await issuerAgent.vc.createInvitationMessage({ flow: CredentialFlow.Issuance }),
         });
